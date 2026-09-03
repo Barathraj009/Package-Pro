@@ -1,0 +1,397 @@
+/**
+ * Full interface-copy dictionary (en/hi/ta) plus data-driven labels that are
+ * keyed by enum value (theme, tier, slot, segment, guide specialisation,
+ * room type, transfer mode, place). Keys are BCP-47 base tags.
+ *
+ * The hi/ta enum labels live in data/content/labels.json — the same file the
+ * content-locale build (scripts/content-build.mjs) consumes — so the UI and
+ * the DB-derived content stay in one vocabulary. Filling a gap here is the
+ * documented stretch item 9 of the README (full multilingual content).
+ */
+import labels from "../../data/content/labels.json";
+
+export const SUPPORTED_UI_LANGUAGES = ["en", "hi", "ta"] as const;
+export type UiLanguage = (typeof SUPPORTED_UI_LANGUAGES)[number];
+
+type Dict = Record<string, string>;
+
+const en: Dict = {
+  "nav.packages": "Packages",
+  "nav.preferences": "Preferences",
+  "nav.login": "Log in",
+
+  // Home
+  "home.badge": "Kognivera Hackathon 2026 · PS-04 · Travel & Tourism",
+  "home.tagline1": "Plot the trip,",
+  "home.tagline2": "watch the price",
+  "home.tagline3": "move with it.",
+  "home.lead":
+    "Start from a curated package. Swap the hotel tier, add a Tamil-speaking heritage guide, stretch the trip by a day — the itinerary and total reprice live, in your language.",
+  "home.browse": "Browse packages",
+  "home.setLang": "Set your language first",
+  "home.step1Title": "Start curated",
+  "home.step1Body": "Adventure, honeymoon, pilgrimage, family and more — or let AI build one from what you tell it.",
+  "home.step2Title": "Swap components",
+  "home.step2Body": "Hotel tier, activities, transfer, a local guide by language and specialism — price updates live.",
+  "home.step3Title": "Book in your language",
+  "home.step3Body": "Interface and guide language both follow your preference, end to end.",
+
+  // Packages list
+  "packages.title": "Curated tour packages",
+  "packages.subtitle": "Browse by theme, then customise anything.",
+  "packages.recommendedForYou": "Recommended for your language",
+  "packages.viewDetails": "View details",
+  "packages.from": "From",
+  "packages.matchesLanguage": "Matches your language",
+  "packages.duration": "{d}d / {n}n",
+  "packages.empty": "No packages match this theme yet.",
+
+  // Package detail
+  "detail.itinerary": "Itinerary",
+  "detail.inclusions": "Inclusions",
+  "detail.exclusions": "Exclusions",
+  "detail.priceBreakdown": "Price breakdown",
+  "detail.total": "Total",
+  "detail.customise": "Customise this package",
+  "detail.hotelTier": "Hotel room tier",
+  "detail.transfer": "Transfer",
+  "detail.guide": "Local guide",
+  "detail.noGuide": "No guide",
+  "detail.addGuide": "Add a guide",
+  "detail.removeGuide": "Remove guide",
+  "detail.extraDays": "Extra days",
+  "detail.book": "Book this package",
+  "detail.save": "Save",
+  "detail.share": "Share",
+  "detail.day": "Day",
+  "detail.added": "Added",
+  "detail.extraDayInfo": "Extra day — estimated at the package's own average daily cost.",
+  "detail.includeGuide": "Include a guide on this trip",
+  "detail.unassigned": "Unassigned (generic estimate)",
+  "detail.defaultRoom": "Default (package's included tier)",
+  "detail.defaultTransfer": "Default (package's included transfer)",
+  "detail.includedExtras": "Included extras",
+  "detail.base": "Base",
+  "detail.swapped": "swapped",
+  "detail.splitAcross": "Split across",
+  "detail.perNight": "/night",
+  "detail.sleeps": "sleeps",
+  "detail.traveller": "traveller",
+  "detail.saved": "Saved.",
+  "detail.shareLink": "Share link:",
+  "detail.booked": "Booked — reference {ref}.",
+  "detail.tripStart": "Trip start:",
+  "detail.daysRange": "{a} → {b} days",
+  "detail.saveError": "Could not save",
+  "detail.loginFirstBook":
+    "Log in first to book (pick a demo traveller). Read the language note below the package — the app follows it.",
+
+  "guide.language": "Speaks",
+  "guide.specialisation": "Specialises in",
+  "guide.dayRate": "Full day",
+  "guide.halfDayRate": "Half day",
+
+  // Login
+  "login.title": "Pick a traveller",
+  "login.subtitle":
+    "PackagePro uses the seeded catalog users for this demo — no signup needed. Segments span heavy users (rich history), light users, and cold-start (little to no history, good for trying the AI builder).",
+  "login.pick": "Pick a traveller",
+  "login.loggingIn": "Logging in…",
+
+  // Preferences
+  "prefs.title": "Language & travel preferences",
+  "prefs.interfaceLanguage": "Interface language",
+  "prefs.guideLanguage": "Preferred guide language",
+  "prefs.preferredLanguages": "Preferred languages",
+  "prefs.save": "Save preferences",
+  "prefs.saved": "Preferences saved — packages and guides are now filtered for you.",
+  "prefs.loginFirst": "Log in as a demo traveller first to set preferences.",
+  "prefs.note":
+    "This drives which packages rank first, which UI language you see, and which guides are recommended first on package pages.",
+  "prefs.noPref": "No preference",
+
+  // Shared share page
+  "share.badge": "Shared itinerary · read-only",
+  "share.customise": "Customise your own version of this package →",
+
+  // Pricing breakdown copy
+  "price.extraDayLabel": "Extra day {n} (est., based on package average)",
+  "price.extraDayNote":
+    "Estimated from the package's own mandatory-cost-per-day — no per-extra-day catalog data exists for this package.",
+  "price.roomNote": "{room} at {hotel} ({currency}{rate}/night vs cheapest {currency}{cheapest}/night)",
+  "price.transferNote": "{mode} · {from} → {to} ({min} min)",
+  "price.availNote": "not available on this date, showing rate anyway",
+  "price.guideLabel": "Local guide — {name}",
+  "price.guideNote": "{spec}{extra} · {langs} · {rateWord} × {mult}{avail}",
+  "price.rateFull": "full day rate",
+  "price.rateHalf": "half day rate",
+
+  "theme.all": "All",
+};
+
+const hi: Dict = {
+  "nav.packages": "पैकेज",
+  "nav.preferences": "प्राथमिकताएँ",
+  "nav.login": "लॉग इन करें",
+
+  "home.badge": "कोग्निवेरा हैकाथॉन 2026 · पीएस-04 · यात्रा और पर्यटन",
+  "home.tagline1": "यात्रा की रूपरेखा बनाएँ",
+  "home.tagline2": "कीमत पर नज़र रखें",
+  "home.tagline3": "और उसके साथ चलें।",
+  "home.lead":
+    "एक क्यूरेटेड पैकेज से शुरू करें। होटल श्रेणी बदलें, तमिल-भाषी विरासत गाइड जोड़ें, यात्रा को एक दिन बढ़ाएँ — यात्रा कार्यक्रम और कुल कीमत आपकी भाषा में लाइव अपडेट होती है।",
+  "home.browse": "पैकेज देखें",
+  "home.setLang": "पहले अपनी भाषा चुनें",
+  "home.step1Title": "क्यूरेटेड शुरुआत",
+  "home.step1Body": "साहसिक, हनीमून, तीर्थयात्रा, परिवार और बहुत कुछ — या AI को अपनी बात से पैकेज बनाने दें।",
+  "home.step2Title": "घटक बदलें",
+  "home.step2Body": "होटल श्रेणी, गतिविधियाँ, ट्रांसफर, भाषा और विशेषज्ञता के अनुसार स्थानीय गाइड — कीमत लाइव अपडेट होती है।",
+  "home.step3Title": "अपनी भाषा में बुक करें",
+  "home.step3Body": "इंटरफ़ेस और गाइड की भाषा दोनों, शुरू से अंत तक आपकी पसंद का पालन करती हैं।",
+
+  "packages.title": "क्यूरेटेड टूर पैकेज",
+  "packages.subtitle": "थीम के अनुसार ब्राउज़ करें, फिर कुछ भी अनुकूलित करें।",
+  "packages.recommendedForYou": "आपकी भाषा के लिए अनुशंसित",
+  "packages.viewDetails": "विवरण देखें",
+  "packages.from": "शुरुआती कीमत",
+  "packages.matchesLanguage": "आपकी भाषा से मेल खाता है",
+  "packages.duration": "{d}दिन / {n}रात",
+  "packages.empty": "इस थीम से मेल खाता कोई पैकेज अभी तक नहीं है।",
+
+  "detail.itinerary": "यात्रा कार्यक्रम",
+  "detail.inclusions": "शामिल",
+  "detail.exclusions": "शामिल नहीं",
+  "detail.priceBreakdown": "मूल्य विवरण",
+  "detail.total": "कुल",
+  "detail.customise": "इस पैकेज को अनुकूलित करें",
+  "detail.hotelTier": "होटल रूम श्रेणी",
+  "detail.transfer": "ट्रांसफर",
+  "detail.guide": "स्थानीय गाइड",
+  "detail.noGuide": "कोई गाइड नहीं",
+  "detail.addGuide": "गाइड जोड़ें",
+  "detail.removeGuide": "गाइड हटाएँ",
+  "detail.extraDays": "अतिरिक्त दिन",
+  "detail.book": "यह पैकेज बुक करें",
+  "detail.save": "सहेजें",
+  "detail.share": "साझा करें",
+  "detail.day": "दिन",
+  "detail.added": "जोड़ा गया",
+  "detail.extraDayInfo": "अतिरिक्त दिन — पैकेज की अपनी औसत दैनिक लागत पर अनुमानित।",
+  "detail.includeGuide": "इस यात्रा में गाइड शामिल करें",
+  "detail.unassigned": "अनिर्धारित (सामान्य अनुमान)",
+  "detail.defaultRoom": "डिफ़ॉल्ट (पैकेज की शामिल श्रेणी)",
+  "detail.defaultTransfer": "डिफ़ॉल्ट (पैकेज का शामिल स्थानांतरण)",
+  "detail.includedExtras": "शामिल अतिरिक्त सेवाएँ",
+  "detail.base": "आधार",
+  "detail.swapped": "बदला गया",
+  "detail.splitAcross": "इनमें बाँटें",
+  "detail.perNight": "/रात",
+  "detail.sleeps": "रह सकते हैं",
+  "detail.traveller": "यात्री",
+  "detail.saved": "सहेजा गया।",
+  "detail.shareLink": "साझा लिंक:",
+  "detail.booked": "बुक किया गया — संदर्भ {ref}।",
+  "detail.tripStart": "यात्रा आरंभ:",
+  "detail.daysRange": "{a} → {b} दिन",
+  "detail.saveError": "सहेजा नहीं जा सका",
+  "detail.loginFirstBook":
+    "बुक करने के लिए पहले लॉग इन करें (डेमो यात्री चुनें)। पैकेज के नीचे भाषा नोट पढ़ें — ऐप उसी का पालन करता है।",
+
+  "guide.language": "भाषा",
+  "guide.specialisation": "विशेषज्ञता",
+  "guide.dayRate": "पूरा दिन",
+  "guide.halfDayRate": "आधा दिन",
+
+  "login.title": "यात्री चुनें",
+  "login.subtitle":
+    "PackagePro इस डेमो के लिए सीडेड कैटलॉग उपयोगकर्ताओं का उपयोग करता है — साइनअप की आवश्यकता नहीं। श्रेणियाँ भारी उपयोगकर्ताओं (समृद्ध इतिहास), हल्के उपयोगकर्ताओं और नए आगंतुकों (कम या कोई इतिहास, AI बिल्डर आज़माने के लिए अच्छे) तक फैली हैं।",
+  "login.pick": "यात्री चुनें",
+  "login.loggingIn": "लॉग इन हो रहा है…",
+
+  "prefs.title": "भाषा और यात्रा प्राथमिकताएँ",
+  "prefs.interfaceLanguage": "इंटरफ़ेस भाषा",
+  "prefs.guideLanguage": "पसंदीदा गाइड भाषा",
+  "prefs.preferredLanguages": "पसंदीदा भाषाएँ",
+  "prefs.save": "प्राथमिकताएँ सहेजें",
+  "prefs.saved": "प्राथमिकताएँ सहेजी गईं — पैकेज और गाइड अब आपके लिए फ़िल्टर किए गए हैं।",
+  "prefs.loginFirst": "प्राथमिकताएँ सेट करने के लिए पहले किसी डेमो यात्री के रूप में लॉग इन करें।",
+  "prefs.note":
+    "यह तय करता है कि कौन से पैकेज पहले रैंक करते हैं, आप कौन सी UI भाषा देखते हैं, और पैकेज पृष्ठों पर कौन से गाइड पहले अनुशंसित किए जाते हैं।",
+  "prefs.noPref": "कोई प्राथमिकता नहीं",
+
+  "share.badge": "साझा यात्रा कार्यक्रम · केवल-पठनीय",
+  "share.customise": "इस पैकेज का अपना संस्करण अनुकूलित करें →",
+
+  "price.extraDayLabel": "अतिरिक्त दिन {n} (अनुमानित, पैकेज औसत पर आधारित)",
+  "price.extraDayNote":
+    "पैकेज की अपनी अनिवार्य लागत-प्रति-दिन से अनुमानित — इस पैकेज के लिए प्रति-अतिरिक्त-दिन कैटलॉग डेटा मौजूद नहीं है।",
+  "price.roomNote": "{hotel} में {room} ({currency}{rate}/रात बनाम सबसे सस्ती {currency}{cheapest}/रात)",
+  "price.transferNote": "{mode} · {from} → {to} ({min} मिनट)",
+  "price.availNote": "इस तारीख पर उपलब्ध नहीं, फिर भी दर दिखाई जा रही है",
+  "price.guideLabel": "स्थानीय गाइड — {name}",
+  "price.guideNote": "{spec}{extra} · {langs} · {rateWord} × {mult}{avail}",
+  "price.rateFull": "पूरा दिन दर",
+  "price.rateHalf": "आधा दिन दर",
+
+  "theme.all": "सभी",
+};
+
+const ta: Dict = {
+  "nav.packages": "பேக்கேஜ்கள்",
+  "nav.preferences": "விருப்பங்கள்",
+  "nav.login": "உள்நுழைக",
+
+  "home.badge": "காக்னிவேரா ஹேக்கத்தான் 2026 · பிஎஸ்-04 · பயணம் மற்றும் சுற்றுலா",
+  "home.tagline1": "பயணத்தை திட்டமிடுங்கள்",
+  "home.tagline2": "விலையை கவனியுங்கள்",
+  "home.tagline3": "அதனுடன் நகர்ந்து செல்லுங்கள்.",
+  "home.lead":
+    "தேர்ந்தெடுக்கப்பட்ட பேக்கேஜில் தொடங்குங்கள். ஹோட்டல் நிலையை மாற்றுங்கள், தமிழ் பேசும் பாரம்பரிய வழிகாட்டியைச் சேருங்கள், பயணத்தை ஒரு நாள் நீட்டுங்கள் — பயணத் திட்டமும் மொத்த விலையும் உங்கள் மொழியில் நேரலையாகப் புதுப்பிக்கப்படும்.",
+  "home.browse": "பேக்கேஜ்களைப் பார்க்க",
+  "home.setLang": "முதலில் உங்கள் மொழியை அமைக்கவும்",
+  "home.step1Title": "தேர்ந்தெடுக்கப்பட்ட ஆரம்பம்",
+  "home.step1Body":
+    "சாகசம், தேனிலவு, யாத்திரை, குடும்பம் மற்றும் பல — அல்லது நீங்கள் சொல்வதிலிருந்து AI ஒன்றை உருவாக்கட்டும்.",
+  "home.step2Title": "கூறுகளை மாற்றவும்",
+  "home.step2Body":
+    "ஹோட்டல் நிலை, செயல்பாடுகள், இடமாற்றம், மொழி மற்றும் நிபுணத்துவத்தின்படி உள்ளூர் வழிகாட்டி — விலை நேரலையாகப் புதுப்பிக்கப்படும்.",
+  "home.step3Title": "உங்கள் மொழியில் முன்பதிவு செய்யுங்கள்",
+  "home.step3Body": "இடைமுகமும் வழிகாட்டி மொழியும் இரண்டும், தொடக்கத்திலிருந்து இறுதிவரை உங்கள் விருப்பத்தைப் பின்பற்றுகின்றன.",
+
+  "packages.title": "தேர்ந்தெடுக்கப்பட்ட சுற்றுலா பேக்கேஜ்கள்",
+  "packages.subtitle": "தீம் வாரியாக உலாவவும், பின் எதையும் தனிப்பயனாக்கவும்.",
+  "packages.recommendedForYou": "உங்கள் மொழிக்கு பரிந்துரைக்கப்பட்டவை",
+  "packages.viewDetails": "விவரங்களைப் பார்க்க",
+  "packages.from": "தொடக்க விலை",
+  "packages.matchesLanguage": "உங்கள் மொழியுடன் பொருந்துகிறது",
+  "packages.duration": "{d}நாள் / {n}இரவு",
+  "packages.empty": "இந்த தீமுடன் பொருந்தும் பேக்கேஜ் இன்னும் இல்லை.",
+
+  "detail.itinerary": "பயண அட்டவணை",
+  "detail.inclusions": "சேர்க்கப்பட்டவை",
+  "detail.exclusions": "விலக்கப்பட்டவை",
+  "detail.priceBreakdown": "விலை விவரம்",
+  "detail.total": "மொத்தம்",
+  "detail.customise": "இந்த பேக்கேஜை தனிப்பயனாக்கு",
+  "detail.hotelTier": "ஹோட்டல் அறை நிலை",
+  "detail.transfer": "இடமாற்றம்",
+  "detail.guide": "உள்ளூர் வழிகாட்டி",
+  "detail.noGuide": "வழிகாட்டி இல்லை",
+  "detail.addGuide": "வழிகாட்டியைச் சேர்",
+  "detail.removeGuide": "வழிகாட்டியை அகற்று",
+  "detail.extraDays": "கூடுதல் நாட்கள்",
+  "detail.book": "இந்த பேக்கேஜை முன்பதிவு செய்",
+  "detail.save": "சேமி",
+  "detail.share": "பகிர்",
+  "detail.day": "நாள்",
+  "detail.added": "சேர்க்கப்பட்டது",
+  "detail.extraDayInfo": "கூடுதல் நாள் — பேக்கேஜின் சொந்த சராசரி தினசரி செலவில் மதிப்பிடப்பட்டது.",
+  "detail.includeGuide": "இந்த பயணத்தில் வழிகாட்டியை சேர்க்கவும்",
+  "detail.unassigned": "நியமிக்கப்படவில்லை (பொது மதிப்பீடு)",
+  "detail.defaultRoom": "இயல்பு (பேக்கேஜின் சேர்க்கப்பட்ட நிலை)",
+  "detail.defaultTransfer": "இயல்பு (பேக்கேஜின் சேர்க்கப்பட்ட இடமாற்றம்)",
+  "detail.includedExtras": "சேர்க்கப்பட்ட கூடுதல் வசதிகள்",
+  "detail.base": "அடிப்படை",
+  "detail.swapped": "மாற்றப்பட்டது",
+  "detail.splitAcross": "இவ்வாறு பிரிக்கவும்",
+  "detail.perNight": "/இரவு",
+  "detail.sleeps": "தங்கலாம்",
+  "detail.traveller": "பயணி",
+  "detail.saved": "சேமிக்கப்பட்டது.",
+  "detail.shareLink": "பகிர்வு இணைப்பு:",
+  "detail.booked": "முன்பதிவு செய்யப்பட்டது — குறிப்பு {ref}.",
+  "detail.tripStart": "பயண தொடக்கம்:",
+  "detail.daysRange": "{a} → {b} நாட்கள்",
+  "detail.saveError": "சேமிக்க முடியவில்லை",
+  "detail.loginFirstBook":
+    "முன்பதிவு செய்ய முதலில் உள்நுழைக (டெமோ பயணியைத் தேர்ந்தெடுக்கவும்). பேக்கேஜின் கீழ் உள்ள மொழி குறிப்பைப் படிக்கவும் — பயன்பாடு அதைப் பின்பற்றும்.",
+
+  "guide.language": "பேசும் மொழி",
+  "guide.specialisation": "நிபுணத்துவம்",
+  "guide.dayRate": "முழு நாள்",
+  "guide.halfDayRate": "அரை நாள்",
+
+  "login.title": "பயணியைத் தேர்ந்தெடுக்கவும்",
+  "login.subtitle":
+    "PackagePro இந்த டெமோவிற்காக சீட் செய்யப்பட்ட பட்டியல் பயனர்களைப் பயன்படுத்துகிறது — பதிவு தேவையில்லை. பிரிவுகள் அதிக வரலாறு கொண்ட பயனர்கள், குறைவான பயனர்கள், மற்றும் புதிய பயனர்கள் (சிறிய அல்லது வரலாறு இல்லாதவை, AI பில்டரை முயற்சிக்க நல்லது) என விரிவடைகின்றன.",
+  "login.pick": "பயணியைத் தேர்ந்தெடுக்கவும்",
+  "login.loggingIn": "உள்நுழைகிறது…",
+
+  "prefs.title": "மொழி மற்றும் பயண விருப்பங்கள்",
+  "prefs.interfaceLanguage": "இடைமுக மொழி",
+  "prefs.guideLanguage": "விருப்பமான வழிகாட்டி மொழி",
+  "prefs.preferredLanguages": "விருப்பமான மொழிகள்",
+  "prefs.save": "விருப்பங்களை சேமி",
+  "prefs.saved": "விருப்பங்கள் சேமிக்கப்பட்டன — பேக்கேஜ்கள் மற்றும் வழிகாட்டிகள் இப்போது உங்களுக்காக வடிகட்டப்பட்டுள்ளன.",
+  "prefs.loginFirst": "விருப்பங்களை அமைக்க முதலில் ஒரு டெமோ பயணியாக உள்நுழைக.",
+  "prefs.note":
+    "இது எந்த பேக்கேஜ்கள் முதலில் தரமிடப்படுகின்றன, நீங்கள் எந்த இடைமுக மொழியைப் பார்க்கிறீர்கள், எந்த வழிகாட்டிகள் முதலில் பரிந்துரைக்கப்படுகிறார்கள் என்பதை தீர்மானிக்கிறது.",
+  "prefs.noPref": "விருப்பம் இல்லை",
+
+  "share.badge": "பகிரப்பட்ட பயணத் திட்டம் · படிக்க மட்டும்",
+  "share.customise": "இந்த பேக்கேஜின் உங்கள் சொந்த பதிப்பை தனிப்பயனாக்கு →",
+
+  "price.extraDayLabel": "கூடுதல் நாள் {n} (மதிப்பீடு, பேக்கேஜ் சராசரி அடிப்படையில்)",
+  "price.extraDayNote":
+    "பேக்கேஜின் சொந்த கட்டாய செலவு-ஒரு-நாள் அடிப்படையில் மதிப்பிடப்பட்டது — இந்த பேக்கேஜுக்கு ஒரு-நாள்-கூடுதல் பட்டியல் தரவு இல்லை.",
+  "price.roomNote":
+    "{hotel} இல் {room} ({currency}{rate}/இரவு, மலிவான {currency}{cheapest}/இரவுடன் ஒப்பிடும்போது)",
+  "price.transferNote": "{mode} · {from} → {to} ({min} நிமிடம்)",
+  "price.availNote": "இந்த தேதியில் கிடைக்கவில்லை, எப்படியும் விலை காட்டப்படுகிறது",
+  "price.guideLabel": "உள்ளூர் வழிகாட்டி — {name}",
+  "price.guideNote": "{spec}{extra} · {langs} · {rateWord} × {mult}{avail}",
+  "price.rateFull": "முழு நாள் விலை",
+  "price.rateHalf": "அரை நாள் விலை",
+
+  "theme.all": "அனைத்தும்",
+};
+
+const LABEL_GROUPS = ["theme", "tier", "slot", "seg", "spec", "room", "mode", "place"] as const;
+
+function mergeLabels(dict: Dict, pick: (v: { en: string; hi: string; ta: string }) => string) {
+  for (const group of LABEL_GROUPS) {
+    const entries = labels[group] as Record<string, { en: string; hi: string; ta: string }>;
+    for (const [key, value] of Object.entries(entries)) {
+      dict[`${group}.${key}`] = pick(value);
+    }
+  }
+}
+
+mergeLabels(en, (v) => v.en);
+mergeLabels(hi, (v) => v.hi);
+mergeLabels(ta, (v) => v.ta);
+
+const dictionaries: Record<UiLanguage, Dict> = { en, hi, ta };
+
+export function t(key: string, lang: string | null | undefined): string {
+  const base = (lang ?? "en").split("-")[0]!.toLowerCase();
+  const dict = dictionaries[base as UiLanguage] ?? dictionaries.en;
+  return dict[key] ?? dictionaries.en[key] ?? key;
+}
+
+/**
+ * Localized enum label with English fallback: returns the translated value for
+ * `group.value`, or the raw `value` when no key exists (unknown enums).
+ */
+export function tLabel(group: string, value: string, lang: string | null | undefined): string {
+  const key = `${group}.${value}`;
+  const v = t(key, lang);
+  return v === key ? value : v;
+}
+
+/** Translate then interpolate `{token}` placeholders, e.g. tf("packages.duration", uiLang, { d: 3, n: 2 }). */
+export function tf(key: string, lang: string | null | undefined, vars: Record<string, string | number> = {}): string {
+  let s = t(key, lang);
+  for (const [k, v] of Object.entries(vars)) {
+    s = s.split(`{${k}}`).join(String(v));
+  }
+  return s;
+}
+
+export function resolveUiLanguage(preferredLanguages: string[]): UiLanguage {
+  for (const p of preferredLanguages) {
+    const base = p.split("-")[0]!.toLowerCase();
+    if ((SUPPORTED_UI_LANGUAGES as readonly string[]).includes(base)) return base as UiLanguage;
+  }
+  return "en";
+}

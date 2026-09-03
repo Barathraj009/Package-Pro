@@ -1,0 +1,29 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+#
+# Lets you deploy PackagePro with "New > Blueprint Instance" in the Render
+# dashboard instead of configuring a Web Service by hand. Render reads this
+# file from the repo (private repos work the same as public ones here).
+#
+# GROQ_API_KEY is intentionally left out of this file (sync: false means
+# "prompt me for it in the dashboard, don't store it in git"). Never put the
+# real key in this file.
+services:
+  - type: web
+    name: packagepro
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: CATALOG_DB_PATH
+        value: ./data/PS-04.db
+      - key: APP_DB_PATH
+        value: ./data/app.db
+      - key: NEXT_PUBLIC_BASE_URL
+        sync: false # set this to your onrender.com URL after the first deploy
+      - key: GROQ_API_KEY
+        sync: false # optional — leave unset in the dashboard to run the rule-based fallback

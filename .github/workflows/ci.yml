@@ -1,0 +1,27 @@
+# Catches a broken build on every push/PR, before Render (or you) ever finds
+# out about it from a failed deploy. This does NOT deploy anything — Render's
+# own GitHub integration handles deploys separately once you connect the repo.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run build

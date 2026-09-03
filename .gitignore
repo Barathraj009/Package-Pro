@@ -1,0 +1,28 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# app database (generated locally, do not commit — regenerate with `npm run db:init`)
+/data/app.db
+/data/app.db-journal
+/data/app.db-wal
+/data/app.db-shm
+
+# env
+.env
+.env.local
+.env*.local
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*
+.vercel
+tsconfig.tsbuildinfo
+next-env.d.ts

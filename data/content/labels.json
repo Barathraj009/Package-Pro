@@ -1,0 +1,67 @@
+{
+  "theme": {
+    "adventure": { "en": "Adventure", "hi": "साहसिक", "ta": "சாகசம்" },
+    "honeymoon": { "en": "Honeymoon", "hi": "हनीमून", "ta": "தேனிலவு" },
+    "pilgrimage": { "en": "Pilgrimage", "hi": "तीर्थयात्रा", "ta": "யாத்திரை" },
+    "family": { "en": "Family", "hi": "परिवार", "ta": "குடும்பம்" },
+    "heritage": { "en": "Heritage", "hi": "विरासत", "ta": "பாரம்பரியம்" },
+    "wellness": { "en": "Wellness", "hi": "वेलनेस", "ta": "நலவாழ்வு" },
+    "wildlife": { "en": "Wildlife", "hi": "वन्यजीव", "ta": "வன விலங்குகள்" },
+    "food_trail": { "en": "Food trail", "hi": "फूड ट्रेल", "ta": "உணவு தடம்" }
+  },
+  "tier": {
+    "standard": { "en": "Standard", "hi": "स्टैंडर्ड", "ta": "ஸ்டாண்டர்ட்" },
+    "deluxe": { "en": "Deluxe", "hi": "डिलक्स", "ta": "டீலக்ஸ்" },
+    "premium": { "en": "Premium", "hi": "प्रीमियम", "ta": "பிரீமியம்" }
+  },
+  "slot": {
+    "morning": { "en": "Morning", "hi": "सुबह", "ta": "காலை" },
+    "afternoon": { "en": "Afternoon", "hi": "दोपहर", "ta": "மதியம்" },
+    "evening": { "en": "Evening", "hi": "शाम", "ta": "மாலை" },
+    "overnight": { "en": "Overnight", "hi": "रात भर", "ta": "இரவு முழுவதும்" }
+  },
+  "seg": {
+    "heavy": { "en": "Frequent traveller", "hi": "नियमित यात्री", "ta": "அடிக்கடி பயணிப்பவர்" },
+    "light": { "en": "Occasional traveller", "hi": "कभी-कभी यात्री", "ta": "எப்போதாவது பயணிப்பவர்" },
+    "cold_start": { "en": "New here", "hi": "नया यहाँ", "ta": "இங்கு புதியவர்" }
+  },
+  "spec": {
+    "heritage": { "en": "Heritage", "hi": "विरासत", "ta": "பாரம்பரியம்" },
+    "food": { "en": "Food", "hi": "भोजन", "ta": "உணவு" },
+    "trekking": { "en": "Trekking", "hi": "ट्रैकिंग", "ta": "மலையேற்றம்" },
+    "wildlife": { "en": "Wildlife", "hi": "वन्यजीव", "ta": "வன விலங்குகள்" },
+    "photography": { "en": "Photography", "hi": "फ़ोटोग्राफ़ी", "ta": "புகைப்படம்" },
+    "religious": { "en": "Religious", "hi": "धार्मिक", "ta": "சமய" },
+    "shopping": { "en": "Shopping", "hi": "खरीदारी", "ta": "ஷாப்பிங்" },
+    "accessibility": { "en": "Accessibility", "hi": "सुलभता", "ta": "அணுகல்திறன்" }
+  },
+  "room": {
+    "Standard": { "en": "Standard", "hi": "स्टैंडर्ड कमरा", "ta": "ஸ்டாண்டர்ட் அறை" },
+    "Deluxe": { "en": "Deluxe", "hi": "डिलक्स", "ta": "டீலக்ஸ்" },
+    "Deluxe Garden View": { "en": "Deluxe Garden View", "hi": "डिलक्स गार्डन व्यू", "ta": "டீலக்ஸ் தோட்ட காட்சி" },
+    "Executive": { "en": "Executive", "hi": "एग्ज़ेक्यूटिव", "ta": "எக்ஸிக்யூட்டிவ்" },
+    "Family Room": { "en": "Family Room", "hi": "फ़ैमिली रूम", "ta": "குடும்ப அறை" },
+    "Heritage Room": { "en": "Heritage Room", "hi": "विरासत कमरा", "ta": "பாரம்பரிய அறை" },
+    "Premier Suite": { "en": "Premier Suite", "hi": "प्रीमियर सुइट", "ta": "பிரீமியர் தொகுப்பு" },
+    "Twin Economy": { "en": "Twin Economy", "hi": "ट्विन इकोनॉमी", "ta": "ட்வின் எக்கானமி" }
+  },
+  "mode": {
+    "auto_rickshaw": { "en": "Auto-rickshaw", "hi": "ऑटो रिक्शा", "ta": "ஆட்டோ ரிக்ஷா" },
+    "bus": { "en": "Bus", "hi": "बस", "ta": "பேருந்து" },
+    "cab": { "en": "Cab", "hi": "कैब", "ta": "கேப்" },
+    "ferry": { "en": "Ferry", "hi": "फ़ेरी", "ta": "படகு" },
+    "train": { "en": "Train", "hi": "ट्रेन", "ta": "ரயில்" }
+  },
+  "place": {
+    "Airport": { "en": "Airport", "hi": "हवाई अड्डा", "ta": "விமான நிலையம்" },
+    "Railway station": { "en": "Railway station", "hi": "रेलवे स्टेशन", "ta": "ரயில் நிலையம்" },
+    "Bus terminus": { "en": "Bus terminus", "hi": "बस अड्डा", "ta": "பேருந்து முனையம்" },
+    "City centre": { "en": "City centre", "hi": "शहर का केंद्र", "ta": "நகர மையம்" },
+    "Port": { "en": "Port", "hi": "बंदरगाह", "ta": "துறைமுகம்" },
+    "Hotel district": { "en": "Hotel district", "hi": "होटल क्षेत्र", "ta": "ஹோட்டல் பகுதி" },
+    "Business park": { "en": "Business park", "hi": "व्यापार पार्क", "ta": "வணிக பூங்கா" },
+    "Beach road": { "en": "Beach road", "hi": "समुद्र तट सड़क", "ta": "கடற்கரை சாலை" },
+    "Hill resort": { "en": "Hill resort", "hi": "हिल रिसॉर्ट", "ta": "மலை ரிசார்ட்" },
+    "Old town": { "en": "Old town", "hi": "पुराना शहर", "ta": "பழைய நகரம்" }
+  }
+}
