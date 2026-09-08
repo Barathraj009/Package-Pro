@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCatalogDb } from "@/lib/db/catalog";
 import { searchGuides } from "@/lib/db/queries";
+import { checkRateLimit } from "@/lib/rateLimit";
 import type { TourPackage, TourGuide } from "@/lib/types";
 
 interface BuilderBody {
@@ -92,13 +93,20 @@ function ruleBasedFallback(candidates: Candidate[], guides: TourGuide[]) {
 }
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "anonymous";
+  if (!checkRateLimit(`ai-builder:${ip}`, 6, 60_000)) {
+    return NextResponse.json({ error: "Rate limit exceeded — try again in a minute." }, { status: 429 });
+  }
+
   const body = (await req.json()) as BuilderBody;
   if (!body.interests || body.interests.trim().length === 0) {
     return NextResponse.json({ error: "interests is required (free text)" }, { status: 400 });
   }
 
+  const interests = body.interests.trim().slice(0, 500);
+
   const currency = body.currency ?? "INR";
-  const candidates = retrieveCandidates(body.interests, body.budget, currency);
+  const candidates = retrieveCandidates(interests, body.budget, currency);
   const cityIds = Array.from(new Set(candidates.map((c) => c.package.city_id)));
   const guides = retrieveGuideCandidates(cityIds, body.preferredLanguages ?? []);
 
@@ -135,7 +143,7 @@ export async function POST(req: NextRequest) {
 {"recommendedPackageId": "<id from the package list>", "reasoning": "<2-3 sentences, plain and specific>", "suggestedGuideId": "<id from the guide list, or an empty string if none fits>", "alternates": ["<id>", "<id>"]}
 Output no commentary before or after the JSON object.`;
 
-    const userPrompt = `Traveller interests: ${body.interests}
+    const userPrompt = `Traveller interests: ${interests}
 Budget: ${body.budget ?? "not specified"} ${currency}
 Preferred languages: ${(body.preferredLanguages ?? []).join(", ") || "not specified"}
 

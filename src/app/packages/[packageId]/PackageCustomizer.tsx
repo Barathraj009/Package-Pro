@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import type {
   TourPackage,
   PackageComponent,
@@ -485,7 +486,12 @@ export default function PackageCustomizer(props: Props) {
             </p>
           )}
           {saveState.bookingRef && (
-            <p className="text-xs text-route mt-3">{tf("detail.booked", uiLang, { ref: saveState.bookingRef })}</p>
+            <p className="text-xs text-route mt-3">
+              {tf("detail.booked", uiLang, { ref: saveState.bookingRef })}{" "}
+              <Link href={`/bookings/confirm?ref=${encodeURIComponent(saveState.bookingRef)}`} className="underline">
+                {t("booking.myTrips", uiLang)} →
+              </Link>
+            </p>
           )}
           {saveState.error && <p className="text-xs text-stamp mt-3">{saveState.error}</p>}
 

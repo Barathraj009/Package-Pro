@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS app_user_preference_overrides (
   user_id               TEXT PRIMARY KEY,
   preferred_languages   TEXT NOT NULL,
   guide_language        TEXT,
+  interests             TEXT,
   updated_at            TEXT NOT NULL
 );
 
@@ -84,5 +85,16 @@ export function getAppDb(): Database.Database {
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
   db.exec(MIGRATIONS);
+
+  // Additive column migrations for databases created before a given column
+  // existed (CREATE TABLE IF NOT EXISTS won't add columns to existing rows).
+  const overrideCols: { name: string }[] = db.prepare(`PRAGMA table_info(app_user_preference_overrides)`).all() as {
+    name: string;
+  }[];
+  const hasInterests = overrideCols.some((c) => c.name === "interests");
+  if (!hasInterests) {
+    db.exec(`ALTER TABLE app_user_preference_overrides ADD COLUMN interests TEXT`);
+  }
+
   return db;
 }

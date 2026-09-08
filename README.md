@@ -18,6 +18,14 @@ npm run db:init                    # sanity-checks data/PS-04.db and creates dat
 npm run dev                        # http://localhost:3000
 ```
 
+Run the automated checks before/after any change:
+
+```bash
+npm run lint      # ESLint
+npm test          # Vitest — unit + catalog-data integration tests
+npm run build     # production build (catches type errors across all routes)
+```
+
 Requires Node 18.18+. `data/PS-04.db` is already included (copied from the
 provided zip, untouched). `data/app.db` is created automatically — it's
 gitignored, delete it any time to reset all saved customizations/bookings.
@@ -42,14 +50,20 @@ No signup: the login page lets you pick any seeded `users` row to act as.
    `src/lib/money.ts` and `src/lib/pricing.ts`.
 
 **Stretch (6–9), all present in some form:**
-6. `/api/ai-builder` — free-tier Groq call, RAG-grounded (candidates are
-   retrieved from the DB first; the model can only pick from ids we actually
-   retrieved, and the response is re-validated against that set). Degrades to
+6. `/build` — a real AI-builder UI (also linked from the header/home): tell
+   it your interests, budget, and guide languages and it returns a grounded
+   recommendation (package + local guide + alternates), all as clickable
+   links. Backed by a Groq call that is RAG-grounded — candidates are
+   retrieved from the DB first, the model can only pick from ids we actually
+   retrieved, and the response is re-validated against that set. Degrades to
    a rule-based keyword match if `GROQ_API_KEY` isn't set or the call fails.
+   The endpoint is rate-limited (see `src/lib/rateLimit.ts`).
 7. `/api/addons/[packageId]` — rule-based cross-sell (same city, sorted by
    rating), not ML.
 8. Save / share (public read-only link) / book, with server-side idempotency
-   on booking.
+   on booking. Booked trips appear on `/bookings` ("My trips") and open on a
+   `/bookings/confirm?ref=PP-…` confirmation page. `/account` shows the demo
+   traveller and has a real logout.
 9. Full multilingual content in en/hi/ta: interface copy, catalog content
    (package/component names, inclusions, cities, hotels, guides) and live
    pricing labels all localize deterministically offline with English
@@ -57,6 +71,14 @@ No signup: the login page lets you pick any seeded `users` row to act as.
    the reprice API accepts `uiLang`, and share pages open in any of the three
    languages via `?lang=`. Content overlays are built at deploy time from the
    catalog by `scripts/content-build.mjs` (see `src/lib/content-i18n.ts`).
+
+**Beyond the rubric:**
+- `/preferences` now records your interests (free text) plus languages —
+  the AI builder prefills from them, so a logged-in traveller's
+  recommendation reflects their profile.
+- Automated tests (`npm test`, Vitest): unit tests for the money, i18n,
+  language, and itinerary engines, plus catalog-integrity integration tests
+  against the real `PS-04.db` (run in CI on every push).
 
 ---
 
@@ -142,11 +164,17 @@ means here: the model can't invent a package or guide that doesn't exist.
 
 ## Known gaps / what's next
 
-- No automated tests yet — verification so far is build + lint + a manual
-  smoke test over every page and API route.
+- **Persistent storage:** `data/app.db` (saved customizations, bookings,
+  sessions, preference overrides) is a local SQLite file on the server. On a
+  free Render plan this is ephemeral — it resets when the service sleeps or
+  is redeployed. Share links and bookings you create today may not survive a
+  restart. See the section below for the one-`await`-touching-everything
+  path to a free hosted database (e.g. Turso).
 - The AI builder's fallback rule-based matcher is intentionally simple
   (keyword overlap) — it's there so the feature always returns *something*
   useful, not to be the final word on relevance.
+- No real signup/email — the demo auth is "pick a seeded traveller".
+  Sessions are a signed-out-able cookie; there's no password/SSO layer.
 
 ## Deploying this for free
 

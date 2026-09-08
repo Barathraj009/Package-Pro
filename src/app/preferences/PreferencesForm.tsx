@@ -16,6 +16,7 @@ export default function PreferencesForm({
   const router = useRouter();
   const [selected, setSelected] = useState<Set<string>>(new Set(initialPreferences.preferredLanguages));
   const [guideLanguage, setGuideLanguage] = useState<string | null>(initialPreferences.guideLanguage);
+  const [interests, setInterests] = useState<string>((initialPreferences.interests ?? []).join(", "));
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const uiLang = resolveUiLanguage(Array.from(selected));
@@ -36,7 +37,7 @@ export default function PreferencesForm({
     const res = await fetch("/api/preferences", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ preferredLanguages: Array.from(selected), guideLanguage }),
+      body: JSON.stringify({ preferredLanguages: Array.from(selected), guideLanguage, interests }),
     });
     setSaving(false);
     if (res.ok) {
@@ -83,6 +84,21 @@ export default function PreferencesForm({
             </option>
           ))}
         </select>
+      </div>
+
+      <div className="mt-6">
+        <p className="text-sm font-medium text-ink mb-3">{t("prefs.interests", uiLang)}</p>
+        <input
+          type="text"
+          value={interests}
+          onChange={(e) => {
+            setInterests(e.target.value);
+            setSaved(false);
+          }}
+          placeholder={t("prefs.interestsPlaceholder", uiLang)}
+          className="w-full border border-mist rounded-lg px-3 py-2 text-sm bg-paper"
+        />
+        <p className="text-xs text-ink/50 mt-1">{t("prefs.interestsHint", uiLang)}</p>
       </div>
 
       <button

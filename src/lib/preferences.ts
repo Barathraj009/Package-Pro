@@ -19,14 +19,14 @@ export function getEffectivePreferences(userId: string): EffectivePreferences {
   const db = getAppDb();
   const override = db
     .prepare<[string]>(`SELECT * FROM app_user_preference_overrides WHERE user_id = ?`)
-    .get(userId) as { preferred_languages: string; guide_language: string | null } | undefined;
+    .get(userId) as { preferred_languages: string; guide_language: string | null; interests: string | null } | undefined;
 
   if (override) {
     return {
       userId,
       preferredLanguages: parseLangList(override.preferred_languages),
       guideLanguage: override.guide_language,
-      interests: [],
+      interests: parseLangList(override.interests ?? ""),
       source: "override",
     };
   }
@@ -45,13 +45,18 @@ export function getEffectivePreferences(userId: string): EffectivePreferences {
   return { userId, preferredLanguages: ["en-IN"], guideLanguage: null, interests: [], source: "default" };
 }
 
-export function setPreferenceOverride(userId: string, preferredLanguages: string[], guideLanguage: string | null) {
+export function setPreferenceOverride(
+  userId: string,
+  preferredLanguages: string[],
+  guideLanguage: string | null,
+  interests?: string[]
+) {
   const db = getAppDb();
   const now = new Date().toISOString();
   db.prepare(
-    `INSERT INTO app_user_preference_overrides (user_id, preferred_languages, guide_language, updated_at)
-     VALUES (?, ?, ?, ?)
+    `INSERT INTO app_user_preference_overrides (user_id, preferred_languages, guide_language, interests, updated_at)
+     VALUES (?, ?, ?, ?, ?)
      ON CONFLICT(user_id) DO UPDATE SET preferred_languages = excluded.preferred_languages,
-       guide_language = excluded.guide_language, updated_at = excluded.updated_at`
-  ).run(userId, preferredLanguages.join(","), guideLanguage, now);
+       guide_language = excluded.guide_language, interests = excluded.interests, updated_at = excluded.updated_at`
+  ).run(userId, preferredLanguages.join(","), guideLanguage, (interests ?? []).join(","), now);
 }

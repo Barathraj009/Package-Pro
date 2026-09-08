@@ -29,6 +29,12 @@ export default function HomePage() {
             >
               {t("home.browse", uiLang)}
             </Link>
+            <Link
+              href="/build"
+              className="inline-flex items-center gap-2 border border-route text-route px-6 py-3 rounded-full font-medium hover:bg-route/5 transition-colors"
+            >
+              {t("home.buildCta", uiLang)}
+            </Link>
             <Link href="/preferences" className="text-sm text-ink/60 hover:text-route underline underline-offset-4">
               {t("home.setLang", uiLang)}
             </Link>

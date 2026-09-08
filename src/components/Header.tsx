@@ -22,11 +22,21 @@ export default function Header() {
           <Link href="/packages" className="hover:text-route transition-colors">
             {t("nav.packages", uiLang)}
           </Link>
-          <Link href="/preferences" className="hover:text-route transition-colors">
-            {t("nav.preferences", uiLang)}
+          <Link href="/build" className="hover:text-route transition-colors">
+            {t("nav.build", uiLang)}
           </Link>
+          {userId && (
+            <Link href="/preferences" className="hover:text-route transition-colors">
+              {t("nav.preferences", uiLang)}
+            </Link>
+          )}
+          {userId && (
+            <Link href="/bookings" className="hover:text-route transition-colors">
+              {t("booking.myTrips", uiLang)}
+            </Link>
+          )}
           <Link
-            href="/login"
+            href={userId ? "/account" : "/login"}
             className="flex items-center gap-2 rounded-full border border-mist px-3 py-1.5 hover:border-route transition-colors"
           >
             {user ? (
